@@ -3,15 +3,16 @@ package main
 import (
 	"fmt"
 	"github.com/gorilla/handlers"
+	"github.com/jpopesculian/wa-server/config"
 	"net/http"
 	"os"
 )
 
-func NewServer(config Config) http.Server {
-	var routes http.Handler = NewRouter(config)
+func NewServer() http.Server {
+	var routes http.Handler = NewRouter()
 	return http.Server{
 		Handler: addMiddleware(routes),
-		Addr:    fmt.Sprintf(":%d", config.Port),
+		Addr:    fmt.Sprintf(":%d", *config.Port),
 	}
 }
 

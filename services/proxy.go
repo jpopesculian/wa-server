@@ -7,12 +7,17 @@ import (
 )
 
 type ProxyService struct {
+	Target  *url.URL
 	Handler *httputil.ReverseProxy
 }
 
 func NewProxyService(target string) ProxyService {
-	url, _ := url.Parse(target)
+	url, err := url.Parse(target)
+	if err != nil {
+		panic(err)
+	}
 	return ProxyService{
+		Target:  url,
 		Handler: httputil.NewSingleHostReverseProxy(url),
 	}
 }

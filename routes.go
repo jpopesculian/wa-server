@@ -1,18 +1,19 @@
 package main
 
 import (
+	"github.com/jpopesculian/wa-server/config"
 	"github.com/jpopesculian/wa-server/services"
 	"net/http"
 )
 
-func NewRouter(config Config) *http.ServeMux {
+func NewRouter() *http.ServeMux {
 	router := http.NewServeMux()
 
 	router.Handle("/",
-		services.NewStaticFileService(config.FileDir).Handler)
+		services.NewStaticFileService(*config.StaticFileDir).Handler)
 
 	router.Handle("/api/users/",
-		services.NewLocalProxyService(3000).Handler)
+		services.NewProxyService(*config.UserServiceAddr).Handler)
 
 	return router
 }

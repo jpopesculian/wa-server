@@ -4,8 +4,15 @@ import (
 	"net/http"
 )
 
-func NewStaticFileService(dir string) Service {
-	return Service{
-		Handler: http.FileServer(http.Dir(dir)),
+type StaticFileService struct {
+	Dir     http.Dir
+	Handler http.Handler
+}
+
+func NewStaticFileService(dirString string) StaticFileService {
+	dir := http.Dir(dirString)
+	return StaticFileService{
+		Dir:     dir,
+		Handler: http.FileServer(dir),
 	}
 }

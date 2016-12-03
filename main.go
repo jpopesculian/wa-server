@@ -2,17 +2,17 @@ package main
 
 import (
 	"fmt"
+	"github.com/jpopesculian/wa-server/config"
 	"log"
 )
 
 func serve() {
-	config := loadConfig()
-	server := NewServer(config)
-
-	fmt.Printf("Serving on port %d\n", config.Port)
+	fmt.Printf("Serving on port %d\n", *config.Port)
+	server := NewServer()
 	log.Fatal(server.ListenAndServe())
 }
 
 func main() {
+	config.Parse()
 	serve()
 }
